@@ -6,10 +6,17 @@ const questionSchema = new mongoose.Schema({
     question:{
         type: String,
         required: true
-    }
+    },
+    options:[
+        {
+            type: mongoose.Schema.ObjectId,
+            ref: "Option"
+        }
+    ]
 
 });
-
+console.log("question model");
+//create the model
 const Question = mongoose.model("Question", questionSchema);
 //export
 module.exports = Question;

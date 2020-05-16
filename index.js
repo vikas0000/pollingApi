@@ -6,6 +6,9 @@ const express = require("express");
 const dataBase = require("./config/mongoose");
 
 const app = express();
+
+app.use("/", require("./routes/index"));
+
 //check for error
 app.listen(port, function(err){
     if(err){console.log("Error in running server"); return;}
