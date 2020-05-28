@@ -3,136 +3,101 @@ const Question = require("../models/question");
 const Option = require("../models/option");
 
 //Create question route
-module.exports.create_question = async function(req, res){
-    try{
+module.exports.create_ques = function(req, res){
+    
         
-        let quest = await Question.create({
-            question: req.body.question
+        var quest = Question.create({
+            QUESTION: req.body.QUESTION
         });
 
-        return res.status(201).json({
-            message: "Question Has Been Created",
-            data: quest
-        });
-
-    }catch(err){
-        // Error in creating Question
-        return res.status(400).json({
-            message: "Internal Server Error"
-        });
-    }
+        console.log( "Question Has Been Created");
+        res.data= quest;
+        return res.redirect("back");
 }
 
 //creating Option ROUTE
-module.exports.createOption = async function(req, res){
-    try{
-        let quest = await Question.findOne({_id: req.params.id});
+module.exports.createOpt = function(req, res){
+   
+        var quest = Question.findOne({_id: req.params.id});
+        
         if(quest){
             
-            const question = quest._id;
-            const text =  req.body.text;
+            const QUESTION = quest._id;
+            const TEXT =  req.body.TEXT;
 
-            let option = await Option.create({
-                question,
-                text
+            var option = Option.create({
+                QUESTION,
+                TEXT
             });
-            let link_Vote = req.protocol + "://" + req.headers.host + "/options/" + option._id + "/add_vote";
+            var link_Vote = req.protocol + "://" + req.headers.host + "/options/" + option._id + "/add_vote";
             option.link_Vote = link_Vote;
-            await option.save();
+            option.save();
            
             //push the id
             quest.options.push(option._id);
-            await quest.save();
+            quest.save();
 
             //succesfull create
-            return res.status(200).json({
-                message: "Option Has Been Successfully  Added!",
-                data: option
-            });
+            console.log( "Option Has Been Successfully  Added!");
+            res.data = option;
+            return;
 
         }else{
             //error
-            return res.status(404).json({
-                message: "Question not Found!"
-            });
+            console.log( "Question not Found!");
+            return res.redirect("back");
         }
-        
-
-    }catch(err){
-        //error
-        return res.status(400).json({
-            message: "Internal Server Error"
-        });
-    }
     
 }
 
 //deleting Question route
-module.exports.deleteQuestion = async function(req, res){
-    try{
-        let quest = await Question.findOne({_id: req.params.id}).populate("options");
+module.exports.deleteQues = function(req, res){
+    
+        var quest = Question.findOne({_id: req.params.id}).populate("options");
+        
         if(quest){
             if(quest.options.length > 0){
-                let check = false;
+                var c = false;
                 for(option of quest.options){
-                    if(option.votes > 0){
+                    if(option.VOTE > 0){
                         
-                        check = true;
+                        c = true;
                     }
                     
                 }
                 //check for the question deleted or not
-                if(check){
+                if(c){
                     
-                    return res.status(409).json({
-                        message: "Not able to delete Question because options has votes in it!",
-                        
-                    });
+                    console.log( "Not able to delete")
+                    return res.redirect("back");
                 }
                 //successfully deleted
-                await Option.deleteMany({question: quest._id});
-                await Question.deleteOne({_id: quest._id});
-                return res.status(200).json({
-                    message: "Deleted Successfully!",
-                    
-                });
+                 Option.deleteMany({QUESTION: quest._id});
+                 Question.deleteOne({_id: quest._id});
+                
+                console.log( "Deleted Successfully!")
+                return;
             }
             
         }else{
             //not found question
-            return res.status(404).json({
-                message: "Question not Found!"
-            });
+            console.log("Question not Found!")
+            return res.redirect("back");
         }
-    }catch(err){
-        //error
-        return res.status(500).json({
-            message: "Internal Server Error"
-        });
-    }
 }
 
 //listing all Questions ROUTE
 
-module.exports.listQuestion = async function(req, res){
+module.exports.listQues =  function(req, res){
 
-    try{
-        let quest = await Question.findOne({_id: req.params.id}).populate("options");
+        var quest = Question.findOne({_id: req.params.id}).populate("options");
         if(quest){
-         
-            return res.status(200).json({
-                data: quest
-            });
+                res.data = quest;
+                return;
+            
         }else{
             //not found
-            return res.status(404).json({
-                message: "Question not Found!"
-            });
+            console.log( "Question not Found!")
+            return res.redirect("back");
         }
-    }catch(err){
-        //error
-        return res.status(400).json({
-            message: "Internal Server Error"
-        });
-    }
 }

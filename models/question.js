@@ -1,13 +1,14 @@
 //import
 const mongoose = require("mongoose");
+
 //create the schema
-const questionSchema = new mongoose.Schema({
+const questSchema = new mongoose.Schema({
     //create the structure
-    question:{
+    QUESTION:{
         type: String,
         required: true
     },
-    options:[
+    OPTIONS:[
         {
             type: mongoose.Schema.ObjectId,
             ref: "Option"
@@ -15,8 +16,8 @@ const questionSchema = new mongoose.Schema({
     ]
 
 });
-console.log("question model");
+
 //create the model
-const Question = mongoose.model("Question", questionSchema);
+const Question = mongoose.model("Question", questSchema);
 //export
 module.exports = Question;

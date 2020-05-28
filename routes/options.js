@@ -7,7 +7,7 @@ const router = express.Router();
 const optionController = require("../controllers/optionController");
 
 //create routes
-router.delete("/:id/delete", optionController.deleteOption);
+router.delete("/:id/delete", optionController.deleteOpt);
 
 router.post("/:id/add_vote", optionController.addVote);
 console.log("option route");

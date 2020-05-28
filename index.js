@@ -3,7 +3,6 @@ const port = 8000;
 
 //import 
 const express = require("express");
-const dataBase = require("./config/mongoose");
 
 const app = express();
 

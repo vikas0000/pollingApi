@@ -4,15 +4,14 @@ const mongoose = require("mongoose");
 //ceate the schema
 const optionSchema = new mongoose.Schema({
 
-    question:{
+    QUESTION:{
         type: mongoose.Schema.ObjectId,
         ref: "Question"
     },
-    text:{
-        type: String,
-        unique: true
+    TEXT:{
+        type: String
     },
-    votes:{
+    VOTE:{
         type: Number,
         default: 0
     },
