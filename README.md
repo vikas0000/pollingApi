@@ -4,13 +4,13 @@ Create an polling API where anyone can create the questions with options and als
 
 # FEATURES
 <p id="s"> 
-<li>
-<ul>Create the question</ul>
-<ul>Add option to the question</ul>
-<ul>Add vote to an options for question</ul>
-<ul>Delete an options</ul>
-<ul>View a questions with options</ul>
-</li>
+<ul>
+<li>Create the question</li>
+<li>Add option to the question</li>
+<li>Add vote to an options for question</li>
+<li>Delete an options</li>
+<li>View a questions with options</li>
+</ul>
 
 # Support
 <p id="5">
